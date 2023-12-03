@@ -21,32 +21,28 @@ let () =
                 | _ -> None)
               cubes
           in
+          let red_cubes, green_cubes, blue_cubes =
+            List.partition3_map
+              ~f:(function
+                | "red", count -> `Fst count
+                | "green", count -> `Snd count
+                | "blue", count -> `Trd count
+                | _ -> `Trd 0)
+              colored_cubes
+          in
           let max_red =
             Option.value ~default:0
-            @@ List.max_elt ~compare:Int.compare
-            @@ List.filter_map
-                 ~f:(function
-                   | "red", count -> Some count
-                   | _ -> None)
-                 colored_cubes
+            @@ List.max_elt ~compare:Int.compare red_cubes
           in
           let max_green =
             Option.value ~default:0
             @@ List.max_elt ~compare:Int.compare
-            @@ List.filter_map
-                 ~f:(function
-                   | "green", count -> Some count
-                   | _ -> None)
-                 colored_cubes
+            @@ green_cubes
           in
           let max_blue =
             Option.value ~default:0
             @@ List.max_elt ~compare:Int.compare
-            @@ List.filter_map
-                 ~f:(function
-                   | "blue", count -> Some count
-                   | _ -> None)
-                 colored_cubes
+            @@ blue_cubes
           in
           Some (max_red * max_green * max_blue)
         | _ -> None)
