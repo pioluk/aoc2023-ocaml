@@ -1,0 +1,5 @@
+(executables
+ (names part1 part2)
+ (libraries base stdio)
+ (preprocess
+  (pps ppx_compare ppx_sexp_conv)))
